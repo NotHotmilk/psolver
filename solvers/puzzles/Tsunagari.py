@@ -6,11 +6,11 @@ problemText = ("Tsunagari/3/5"
                "/-1.-1. 4.-1.-1")
 problemText = ("Tsunagari/6/6"
                "/ 7. 2. 7.-1.-1. 8"
-               "/-1.-1.-1.-1.-1. 4"
                "/-1.-1.-1.-1.-1.-1"
-               "/ 5.-1. 3.-1.-1.-1"
                "/-1.-1.-1.-1.-1.-1"
-               "/ 1.-1. 5. 6.-1. 8")
+               "/ 5.-1. 3.-1.-1. 4"
+               "/-1.-1.-1. 6.-1.-1"
+               "/ 1.-1. 5.-1.-1. 8")
 problemText = problemText.strip().split("/")
 
 # 問題のサイズ
@@ -27,7 +27,7 @@ if int(height * width) not in size:
 
 # sizeの何番目か
 size_index = size.index(int(height * width))
-print(f"use numbers 1-{size_index}")
+print(f"numbers: 1-{size_index}")
 
 # 問題のヒント
 # .で区切って２次元int配列に変換
