@@ -55,7 +55,7 @@ for y in range(height - 1):
         solver.ensure(count_true(is_black[y:y+2, x:x+2]) != 3)
 
 # 00
-# 01 のパターンを許さない -> 黒マスが長方形を形成する
+# 01 のパターンを許さない -> 白マスが長方形を形成する
 for y in range(height - 1):
     for x in range(width - 1):
         solver.ensure(count_true(is_black[y:y+2, x:x+2]) != 1)
