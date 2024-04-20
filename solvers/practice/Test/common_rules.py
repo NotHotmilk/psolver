@@ -5,15 +5,10 @@ from cspuz.array import BoolArray2D
 
 
 # 2*2禁
-def not_forming_2by2_square(solver: Solver, array2d: BoolArray2D, black=True):
-    if black:
-        solver.ensure(~(
-                array2d[:-1, :-1] & array2d[:-1, 1:] & array2d[1:, :-1] & array2d[1:, 1:]
-        ))
-    else:
-        solver.ensure(
-            array2d[:-1, :-1] | array2d[:-1, 1:] | array2d[1:, :-1] | array2d[1:, 1:]
-        )
+def not_forming_2by2_square(solver: Solver, is_black: BoolArray2D):
+    solver.ensure(~(
+            is_black[:-1, :-1] & is_black[:-1, 1:] & is_black[1:, :-1] & is_black[1:, 1:]
+    ))
 
 
 # 全部の列・行にある黒マスの数が等しい
@@ -42,6 +37,7 @@ def minesweeper_like_around_number(solver: Solver, is_black: BoolArray2D, proble
                     is_black[max(0, y - 1):min(y + 2, height), max(0, x - 1):min(x + 2, width)]
                 ) == problem[y][x])
 
+
 # 数字の周囲４マスに黒マスがちょうどその数だけある クリークの制約
 def creek_like_around_number(solver: Solver, is_black: BoolArray2D, problem, height, width):
     for y in range(height + 1):
@@ -53,9 +49,20 @@ def creek_like_around_number(solver: Solver, is_black: BoolArray2D, problem, hei
                     )
                     == problem[y][x])
 
+
 # すべての黒マスのブロックが同じ面積
 def all_black_blocks_have_same_area(solver: Solver, is_black: BoolArray2D, height: int, width: int, area: int):
     group_id, group_size = graph.connected_groups(solver, is_black)
     for y in range(height):
         for x in range(width):
             solver.ensure(then(is_black[y, x], group_size[y, x] == area))
+
+
+# すべての黒マスのブロックが２マス
+def all_black_blocks_have_same_area_2(solver: Solver, is_black: BoolArray2D, problem, height: int, width: int):
+    for y in range(height):
+        for x in range(width):
+            solver.ensure(then(is_black[y, x], count_true(
+                is_black[max(0, y - 1):min(y + 2, height), x],
+                is_black[y, max(0, x - 1):min(x + 2, width)]
+            ) == 3))
