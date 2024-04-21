@@ -1,7 +1,4 @@
-﻿from cspuz import Solver, graph
-from cspuz.constraints import count_true, fold_and, fold_or, then
-from cspuz.puzzle.util import stringify_grid_frame, stringify_array
-from common_rules import *
+﻿from solvers.puzzles.common_rules import *
 
 problem = [
     [-1, -1, -1, -1, -1, -1],

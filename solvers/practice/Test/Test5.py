@@ -1,12 +1,7 @@
-﻿import sys
-import subprocess
-
-import cspuz
-from cspuz import Solver, graph
-from cspuz.constraints import count_true, fold_and, fold_or, then
-from cspuz.puzzle.util import stringify_grid_frame, stringify_array, encode_array
+﻿from cspuz import Solver
+from cspuz.puzzle.util import stringify_array, encode_array
 from cspuz.generator import generate_problem, count_non_default_values, ArrayBuilder2D
-import common_rules
+from solvers.puzzles import common_rules
 
 
 def solve_original(height, width, problem):

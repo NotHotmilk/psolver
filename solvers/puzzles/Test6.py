@@ -21,25 +21,6 @@ def solve_ostil(height, width, problem):
     has_answer = solver.solve()
     return has_answer, is_black
 
-def solve_ostil_2(height, width, problem):
-    solver = Solver()
-    is_black = solver.bool_array((height, width))
-    solver.add_answer_key(is_black)
-    border = graph.BoolInnerGridFrame(solver, height, width)
-    common_rules.creek_like_around_number(solver, is_black, problem, height, width)
-    common_rules.not_forming_2by2_square(solver, ~is_black)
-
-    size = solver.int_array((height, width), 1, height * width)
-    solver.ensure(border.vertical == (is_black[:, :-1] != is_black[:, 1:]))
-    solver.ensure(border.horizontal == (is_black[:-1, :] != is_black[1:, :]))
-    graph.division_connected_variable_groups_with_borders(solver, group_size=size, is_border=border)
-
-    for y in range(height):
-        for x in range(width):
-            solver.ensure(is_black[y, x].then(size[y, x] == 4))
-
-    has_answer = solver.solve()
-    return has_answer, is_black, size
 
 def generate_ostil(height, width, symmetry=False, verbose=False):
     def penalty(problem):
@@ -48,18 +29,21 @@ def generate_ostil(height, width, symmetry=False, verbose=False):
         for y in range(height + 1):
             for x in range(width + 1):
                 if problem[y][x] == 4:
-                    ret += 16
+                    ret += 20
+                    least_count += 1
+                elif problem[y][x] == 3:
+                    ret += 4
                     least_count += 1
                 elif problem[y][x] != -1:
                     ret += 10
                     least_count += 1
 
-        ret += max(0, min(height, width) - least_count) * 250
-
-        import max_rectangle
-        max_area, (h, w) = max_rectangle.max_rectangle_area_with_dimensions(
-            [[1 if problem[y][x] == -1 else 0 for x in range(width + 1)] for y in range(height + 1)])
-        ret -= max_area * min(h, w) * 4
+        # ret += max(0, min(height, width) - least_count) * 250
+        # 
+        # import max_rectangle
+        # max_area, (h, w) = max_rectangle.max_rectangle_area_with_dimensions(
+        #     [[1 if problem[y][x] == -1 else 0 for x in range(width + 1)] for y in range(height + 1)])
+        # ret -= max_area * min(h, w) * 4
 
         return ret
 
@@ -102,21 +86,3 @@ if __name__ == "__main__":
     print("Result")
     for result in results:
         print(result)
-
-    # p = (8, 8,
-    #                       [
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                           [-1, -1, -1, -1,  3, -1, -1, -1,  1],
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                           [-1,  2, -1,  3, -1,  3,  3, -1, -1],
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                           [-1,  3,  1, -1,  3,  2, -1, -1,  1],
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                           [-1, -1, -1,  1, -1,  1, -1, -1, -1],
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                       ])
-    # ans1 = solve_ostil(*p)
-    # print("Answer1")
-    # print(ans1[0])
-    # print(stringify_array(ans1[1], {True: '#', False: '.', None: '?'}))
-    # print("Answer1")

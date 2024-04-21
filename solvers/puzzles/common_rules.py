@@ -58,6 +58,21 @@ def all_black_blocks_have_same_area(solver: Solver, is_black: BoolArray2D, heigh
             solver.ensure(then(is_black[y, x], group_size[y, x] == area))
 
 
+# 処理が重すぎるので、新しい処理を考える
+def all_black_blocks_have_same_area_revised(solver: Solver, is_black: BoolArray2D, height: int, width: int, area: int):
+    max_area = height * width // area
+    division = solver.int_array((height, width), 0, max_area)
+
+    for region_idx in range(1, max_area):
+        graph.active_vertices_connected(solver, division[:, :] == region_idx)
+
+    solver.ensure((~is_black).conv2d(2, 1, "and").then(division[:-1, :] == division[1:, :]))
+    solver.ensure((~is_black).conv2d(1, 2, "and").then(division[:, :-1] == division[:, 1:]))
+
+    for i in range(0, max_area):
+        solver.ensure(count_true(division == i) == area)
+
+
 # すべての黒マスのブロックが２マス
 def all_black_blocks_have_same_area_2(solver: Solver, is_black: BoolArray2D, problem, height: int, width: int):
     for y in range(height):
@@ -66,3 +81,12 @@ def all_black_blocks_have_same_area_2(solver: Solver, is_black: BoolArray2D, pro
                 is_black[max(0, y - 1):min(y + 2, height), x],
                 is_black[y, max(0, x - 1):min(x + 2, width)]
             ) == 3))
+
+
+# 黒マスが長方形を形成する
+# 1 1
+# 1 0 のパターンを許さない
+def black_cells_form_rectangle(solver: Solver, is_black: BoolArray2D, height: int, width: int):
+    for y in range(height - 1):
+        for x in range(width - 1):
+            solver.ensure(count_true(is_black[y:y + 2, x:x + 2]) != 3)

@@ -34,8 +34,8 @@ def solve_sdouri(height, width, problem):
     has_answer = solver.solve()
     return has_answer, grid_frame
 
-def generate_sdouri(height, width, symmetry=False, verbose=False):
 
+def generate_sdouri(height, width, symmetry=False, verbose=False):
     def penalty(problem):
         ret = 0
         for y in range(height):
@@ -47,12 +47,25 @@ def generate_sdouri(height, width, symmetry=False, verbose=False):
                 elif problem[y][x] != -1:
                     ret += 10
         return ret
-    
+
+    def compute_score(ans: cspuz.grid_frame.BoolGridFrame):
+        score = 0
+        for a in ans:
+            if a.sol is not None:
+                score += 1
+                if a.sol:
+                    score += 1
+        return score
+
     generated = generate_problem(lambda problem: solve_sdouri(height, width, problem),
-                                    builder_pattern=ArrayBuilder2D(height, width, [i for i in range(-1, 7)], default=-1, symmetry=symmetry),
-                                    clue_penalty=penalty,#lambda problem: count_non_default_values(problem, default=-1, weight=10),
-                                    verbose=verbose)
+                                 builder_pattern=ArrayBuilder2D(height, width, [i for i in range(-1, 7)], default=-1,
+                                                                symmetry=symmetry),
+                                 clue_penalty=penalty,
+                                 # lambda problem: count_non_default_values(problem, default=-1, weight=10),
+                                 score=compute_score,
+                                 verbose=verbose)
     return generated
+
 
 def generatehxw(height, width):
     print("Generating")
@@ -65,15 +78,19 @@ def generatehxw(height, width):
     print(stringify_grid_frame(solve_sdouri(height, width, problem)[1]))
     return link
 
+
 import multiprocessing
+
 
 def parallel_generatehxw():
     with multiprocessing.Pool(processes=4) as pool:
         results = pool.map(generatehxw_wrapper, range(4))
     return results
 
+
 def generatehxw_wrapper(i):
     return generatehxw(8, 8)
+
 
 if __name__ == '__main__':
     results = parallel_generatehxw()
