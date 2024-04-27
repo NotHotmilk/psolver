@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="992e3db7-acb7-4a1c-8803-c954af57e861" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/psolver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/psolver.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/puzzles/ORIGINALSolver.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/ORIGINALSolver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/puzzles/OstilSolver.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/OstilSolver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/puzzles/SdouriSolver.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/SdouriSolver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Test7.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Test7.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/puzzles/common_rules.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/common_rules.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;NotHotmilk&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/NotHotmilk/psolver.git&quot;,
+    &quot;accountId&quot;: &quot;084efe68-72b8-426c-8016-676fd5f215c7&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/.local/lib/python3.10/site-packages/cspuz/puzzle/util.py" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2fYRSjXPshLdwHVZ3DJntTnGEJx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Current File A.executor&quot;: &quot;Run&quot;,
+    &quot;Python.OstilSolver.executor&quot;: &quot;Run&quot;,
+    &quot;Python.TetritorySolver.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/notmilk/PycharmProjects/psolver/solvers/puzzles&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
+    <layout>
+      <window_info id="Bookmarks" show_stripe_button="false" side_tool="true" />
+      <window_info id="Merge Requests" show_stripe_button="false" />
+      <window_info id="Commit_Guest" show_stripe_button="false" />
+      <window_info id="Pull Requests" show_stripe_button="false" />
+      <window_info id="Learn" show_stripe_button="false" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10338542" />
+      <window_info id="Commit" order="1" weight="0.25" />
+      <window_info id="Welcome to GitHub Copilot" order="2" show_stripe_button="false" />
+      <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
+      <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
+      <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Problems" order="1" />
+      <window_info anchor="bottom" id="Problems View" order="2" />
+      <window_info anchor="bottom" id="Terminal" order="3" />
+      <window_info anchor="bottom" id="Services" order="4" />
+      <window_info anchor="bottom" id="Python Packages" order="5" weight="0.1" />
+      <window_info anchor="bottom" id="Debug" order="6" weight="0.33028847" />
+      <window_info anchor="bottom" id="Python Console" order="6" weight="0.1" />
+      <window_info anchor="right" id="Endpoints" show_stripe_button="false" />
+      <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="right" id="SciView" show_stripe_button="false" />
+      <window_info anchor="right" id="Notifications" order="0" weight="0.2502604" />
+      <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
+      <window_info anchor="right" id="Database" order="2" weight="0.2502604" />
+      <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="4" weight="0.25" />
+      <window_info anchor="right" id="Key Promoter X" order="5" show_stripe_button="false" />
+      <window_info anchor="right" id="Plots" order="6" weight="0.1" />
+      <window_info anchor="right" id="github.copilotToolWindow" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="GitHub Copilot Chat" order="8" weight="0.23463541" />
+      <window_info active="true" anchor="right" id="Run" order="9" side_tool="true" visible="true" weight="0.23463541" />
+    </layout>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/solvers/puzzles" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Current File A" type="PythonConfigurationType" factoryName="Python">
+      <module name="psolver" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="CSPUZ_DEFAULT_BACKEND" value="enigma_csp" />
+        <env name="PYTHONPATH" value="$PYTHONPATH:/mnt/c/Users/the_h/Desktop/Ubuntu" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.10 (Ubuntu)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$FilePath$" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="992e3db7-acb7-4a1c-8803-c954af57e861" name="Changes" comment="" />
+      <created>1713976026979</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713976026979</updated>
+      <workItem from="1713976028521" duration="20823000" />
+      <workItem from="1714097881962" duration="28469000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/psolver$TetritorySolver.coverage" NAME="TetritorySolver Coverage Results" MODIFIED="1713980230054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/solvers/puzzles" />
+    <SUITE FILE_PATH="coverage/psolver$Current_File_A.coverage" NAME="Current File A Coverage Results" MODIFIED="1714200390357" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/psolver$OstilSolver.coverage" NAME="OstilSolver Coverage Results" MODIFIED="1713980373437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/solvers/puzzles" />
+  </component>
+</project>

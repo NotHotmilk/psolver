@@ -83,13 +83,13 @@ import multiprocessing
 
 
 def parallel_generatehxw():
-    with multiprocessing.Pool(processes=4) as pool:
-        results = pool.map(generatehxw_wrapper, range(4))
+    with multiprocessing.Pool(processes=1) as pool:
+        results = pool.map(generatehxw_wrapper, range(1))
     return results
 
 
 def generatehxw_wrapper(i):
-    return generatehxw(8, 8)
+    return generatehxw(10, 10)
 
 
 if __name__ == '__main__':

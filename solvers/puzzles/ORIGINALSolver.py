@@ -15,35 +15,36 @@ def solve_original(height, width, problem):
     solver.add_answer_key(is_black)
 
     common_rules.creek_like_around_number(solver, is_black, problem, height, width)
-    common_rules.black_cells_form_rectangle(solver, is_black, height, width)
-    common_rules.black_cells_form_rectangle(solver, ~is_black, height, width)
+    common_rules.not_forming_2by2_square(solver, ~is_black)
+    graph.active_vertices_connected(solver, ~is_black)
+    # common_rules.black_cells_form_rectangle(solver, ~is_black, height, width)
 
     has_answer = solver.solve()
     return has_answer, is_black
 
 
 def generate_original(height, width, symmetry=False, verbose=False):
-    def compute_score(ans):
-        score = 0
-        sol = [[ans[y, x].sol for x in range(width)] for y in range(height)]
-
-        for v in sol:
-            if v is not None:
-                score += 1
-
-        for y in range(height - 1):
-            for x in range(width - 1):
-                if all(sol[y + dy][x + dx] != -1 for dy, dx in [(0, 0), (1, 0), (0, 1), (1, 1)]):
-                    if sol[y][x] != sol[y + 1][x] and sol[y][x] != sol[y][x + 1] and sol[y][x] == sol[y + 1][x + 1]:
-                        score += 5
-
-        return score
+    # def compute_score(ans):
+    #     score = 0
+    #     sol = [[ans[y, x].sol for x in range(width)] for y in range(height)]
+    #
+    #     for v in sol:
+    #         if v is not None:
+    #             score += 1
+    #
+    #     for y in range(height - 1):
+    #         for x in range(width - 1):
+    #             if all(sol[y + dy][x + dx] != -1 for dy, dx in [(0, 0), (1, 0), (0, 1), (1, 1)]):
+    #                 if sol[y][x] != sol[y + 1][x] and sol[y][x] != sol[y][x + 1] and sol[y][x] == sol[y + 1][x + 1]:
+    #                     score += 5
+    #
+    #     return score
 
     generated = generate_problem(lambda problem: solve_original(height, width, problem),
                                  builder_pattern=ArrayBuilder2D(height + 1, width + 1, [-1, 0, 1, 2, 3, 4], default=-1,
                                                                 symmetry=symmetry),
                                  clue_penalty=lambda problem: count_non_default_values(problem, default=-1, weight=10),
-                                 score=compute_score,
+                                 # score=compute_score,
                                  verbose=verbose)
     return generated
 
@@ -64,8 +65,8 @@ import multiprocessing
 
 
 def parallel_generatehxw():
-    with multiprocessing.Pool(processes=8) as pool:
-        results = pool.map(generatehxw_wrapper, range(8))
+    with multiprocessing.Pool(processes=2) as pool:
+        results = pool.map(generatehxw_wrapper, range(2))
     return results
 
 

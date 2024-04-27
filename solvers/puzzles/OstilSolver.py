@@ -1,4 +1,5 @@
-﻿import sys
+﻿import math
+import sys
 import subprocess
 
 import cspuz
@@ -9,17 +10,18 @@ from cspuz.generator import generate_problem, count_non_default_values, ArrayBui
 import common_rules
 
 
-def solve_ostil(height, width, problem):
-    solver = Solver()
-    is_black = solver.bool_array((height, width))
-    solver.add_answer_key(is_black)
+# def solve_ostil(height, width, problem):
+#     solver = Solver()
+#     is_black = solver.bool_array((height, width))
+#     solver.add_answer_key(is_black)
+#
+#     common_rules.all_black_blocks_have_same_area(solver, is_black, height, width, 4)
+#     common_rules.creek_like_around_number(solver, is_black, problem, height, width)
+#     common_rules.not_forming_2by2_square(solver, ~is_black)
+#
+#     has_answer = solver.solve()
+#     return has_answer, is_black
 
-    common_rules.all_black_blocks_have_same_area(solver, is_black, height, width, 4)
-    common_rules.creek_like_around_number(solver, is_black, problem, height, width)
-    common_rules.not_forming_2by2_square(solver, ~is_black)
-
-    has_answer = solver.solve()
-    return has_answer, is_black
 
 def solve_ostil_2(height, width, problem):
     solver = Solver()
@@ -39,35 +41,44 @@ def solve_ostil_2(height, width, problem):
             solver.ensure(is_black[y, x].then(size[y, x] == 4))
 
     has_answer = solver.solve()
-    return has_answer, is_black, size
+    return has_answer, is_black
+
 
 def generate_ostil(height, width, symmetry=False, verbose=False):
     def penalty(problem):
         ret = 0
-        least_count = 0
         for y in range(height + 1):
             for x in range(width + 1):
                 if problem[y][x] == 4:
-                    ret += 16
-                    least_count += 1
+                    ret += 100
                 elif problem[y][x] != -1:
                     ret += 10
-                    least_count += 1
-
-        ret += max(0, min(height, width) - least_count) * 250
 
         import max_rectangle
         max_area, (h, w) = max_rectangle.max_rectangle_area_with_dimensions(
             [[1 if problem[y][x] == -1 else 0 for x in range(width + 1)] for y in range(height + 1)])
-        ret -= max_area * min(h, w) * 4
+
+        area_score = max_area // 1.5
+        # print(f"{max_area}/{ret} -> {area_score}, final penalty -> {ret - area_score}")
+        ret -= area_score
+        ret = max(ret, 0)
 
         return ret
 
-    generated = generate_problem(lambda problem: solve_ostil(height, width, problem),
+    def compute_score(ans: graph.BoolArray2D):
+        score = 0
+        for a in ans:
+            if a.sol is not None:
+                score += 1
+
+        return score
+
+    generated = generate_problem(lambda problem: solve_ostil_2(height, width, problem),
                                  builder_pattern=ArrayBuilder2D(height + 1, width + 1, [-1, 0, 1, 2, 3, 4], default=-1,
                                                                 symmetry=symmetry),
                                  clue_penalty=penalty,
                                  # lambda problem: count_non_default_values(problem, default=-1, weight=10),
+                                 score=compute_score,
                                  verbose=verbose)
     return generated
 
@@ -75,12 +86,11 @@ def generate_ostil(height, width, symmetry=False, verbose=False):
 def generatehxw(height, width):
     print("Generating")
     problem = generate_ostil(height, width, symmetry=False, verbose=True)
+    print(cspuz.puzzle.util.encode_array(problem, empty=-1))
     print(stringify_array(problem, str))
-    link = 'https://puzz.link/p?creek/{}/{}/{}'.format(width, height, encode_array(
-        list(map(lambda row: list(map(lambda x: '_' if x == -1 else x, row)), problem))
-    ))
+    link = 'https://puzz.link/p?creek/{}/{}/{}'.format(width, height, encode_array(problem, empty=-1))
     print(link)
-    print(stringify_array(solve_ostil(height, width, problem)[1], {True: '#', False: '.', None: '?'}))
+    print(stringify_array(solve_ostil_2(height, width, problem)[1], {True: '#', False: '.', None: '?'}))
     return link
 
 
@@ -88,13 +98,13 @@ import multiprocessing
 
 
 def parallel_generatehxw():
-    with multiprocessing.Pool(processes=8) as pool:
-        results = pool.map(generatehxw_wrapper, range(8))
+    with multiprocessing.Pool(processes=4) as pool:
+        results = pool.map(generatehxw_wrapper, range(4))
     return results
 
 
 def generatehxw_wrapper(_):
-    return generatehxw(8, 8)
+    return generatehxw(6, 6)
 
 
 if __name__ == "__main__":

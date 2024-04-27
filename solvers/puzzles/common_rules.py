@@ -58,21 +58,6 @@ def all_black_blocks_have_same_area(solver: Solver, is_black: BoolArray2D, heigh
             solver.ensure(then(is_black[y, x], group_size[y, x] == area))
 
 
-# 処理が重すぎるので、新しい処理を考える
-def all_black_blocks_have_same_area_revised(solver: Solver, is_black: BoolArray2D, height: int, width: int, area: int):
-    max_area = height * width // area
-    division = solver.int_array((height, width), 0, max_area)
-
-    for region_idx in range(1, max_area):
-        graph.active_vertices_connected(solver, division[:, :] == region_idx)
-
-    solver.ensure((~is_black).conv2d(2, 1, "and").then(division[:-1, :] == division[1:, :]))
-    solver.ensure((~is_black).conv2d(1, 2, "and").then(division[:, :-1] == division[:, 1:]))
-
-    for i in range(0, max_area):
-        solver.ensure(count_true(division == i) == area)
-
-
 # すべての黒マスのブロックが２マス
 def all_black_blocks_have_same_area_2(solver: Solver, is_black: BoolArray2D, problem, height: int, width: int):
     for y in range(height):
