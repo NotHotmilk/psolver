@@ -6,15 +6,22 @@ from cspuz.generator import generate_problem, count_non_default_values, ArrayBui
 import common_rules
 
 
-def solve_tetritory(height: int, width: int, problem: tuple[list[int], list[int], list[list[int]]],
+def solve_tetritory(height: int, width: int, problem: list[list[int]], y_key: list[int], x_key: list[int],
                     output_board: bool = False):
-    y_key, x_key, problem = problem
+
 
     solver = Solver()
 
     block_number = solver.int_array((height, width), 0, height * width // 4 - 1)
+
+    # 軽量化
     solver.ensure(block_number[0, 0] == 0)
     solver.ensure(block_number[height - 1, width - 1] == height * width // 4 - 1)
+    if height >= 5 and width >= 5:
+        solver.ensure(block_number[0, width - 1] == 1)
+        solver.ensure(block_number[height - 1, 0] == height * width // 4 - 2)
+        solver.ensure(block_number[(height + 1) // 2, (width + 1) // 2] == 2)
+
     is_base = solver.bool_array((height, width))
     border = graph.BoolInnerGridFrame(solver, height, width)
     graph.division_connected_variable_groups_with_borders(solver, group_size=solver.int_array((height, width), 4, 4),
@@ -98,7 +105,6 @@ def solve_tetritory(height: int, width: int, problem: tuple[list[int], list[int]
     return has_answer, (border, is_base)
 
 
-
 if __name__ == "__main__":
     # height = 6
     # width = 6
@@ -117,26 +123,42 @@ if __name__ == "__main__":
     #     ]
     # )
 
+    # height = 6
+    # width = 6
+    # problem = (
+    #     [3, -1, 1, 2, -1, 0],
+    #     [1, -1, 1, -1, 1, -1],
+    #     [
+    #         [0, 0, 0, 0, 0, 0, 0],
+    #         [0, 0, 0, 1, 0, 0, 0],
+    #         [0, 0, 0, 0, 0, 0, 0],
+    #         [0, 2, 2, 0, 0, 4, 0],
+    #         [0, 2, 0, 4, 0, 0, 0],
+    #         [0, 2, 2, 2, 0, 0, 0],
+    #         [0, 0, 0, 0, 0, 0, 0],
+    #     ]
+    # )
+
     height = 6
     width = 6
-    problem = (
-        [ 3, -1,  1,  2, -1,  0],
-        [ 1, -1,  1, -1,  1, -1],
-        [
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 2, 2, 0, 0, 4, 0],
-            [0, 2, 0, 4, 0, 0, 0],
-            [0, 2, 2, 2, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-        ]
-    )
+
+    y_key = [0, 0, -1, -1, -1, 1]
+    x_key = [-1, 0, -1, -1, -1, 1]
+
+    problem = [
+        [0, 0, 1, 0, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0],
+    ]
 
     import time
 
     start_time = time.time()
-    is_sat, border = solve_tetritory(height, width, problem, output_board=True)
+    is_sat = solve_tetritory(height, width, problem, y_key, x_key, output_board=True)
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(is_sat)

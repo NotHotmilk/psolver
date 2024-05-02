@@ -50,12 +50,12 @@ def creek_like_around_number(solver: Solver, is_black: BoolArray2D, problem, hei
                     == problem[y][x])
 
 
-# すべての黒マスのブロックが同じ面積
-def all_black_blocks_have_same_area(solver: Solver, is_black: BoolArray2D, height: int, width: int, area: int):
-    group_id, group_size = graph.connected_groups(solver, is_black)
-    for y in range(height):
-        for x in range(width):
-            solver.ensure(then(is_black[y, x], group_size[y, x] == area))
+# # すべての黒マスのブロックが同じ面積
+# def all_black_blocks_have_same_area(solver: Solver, is_black: BoolArray2D, height: int, width: int, area: int):
+#     group_id, group_size = graph.connected_groups(solver, is_black)
+#     for y in range(height):
+#         for x in range(width):
+#             solver.ensure(then(is_black[y, x], group_size[y, x] == area))
 
 
 # すべての黒マスのブロックが２マス
