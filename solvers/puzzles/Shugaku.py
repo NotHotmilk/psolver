@@ -129,8 +129,13 @@ def generate_shugaku(height, width, verbose=False, symmetry=False):
                         neighbors.append(kind[y][x - 1].sol)
                     if x < width - 1:
                         neighbors.append(kind[y][x + 1].sol)
-                    if all(neighbor != 0 for neighbor in neighbors):
+                    # neighbor!=0となる数を取得
+                    non_zero_neighbors = [n for n in neighbors if n != 0]
+                    non_zero_count = len(non_zero_neighbors)
+                                             # neighborsがすべて0でないとき
+                    if all([n != 0 for n in neighbors]):
                         score += 1000
+
                 if dir[y, x].sol is not None:
                     score += 1
 
@@ -203,7 +208,7 @@ def parallel_generatehxw():
 
 
 def generatehxw_wrapper(i):
-    return generatehxw(10, 10)
+    return generatehxw(8, 8)
 
 
 if __name__ == '__main__':
