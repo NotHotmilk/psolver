@@ -108,25 +108,26 @@ def generatehxw_wrapper(_):
 
 
 if __name__ == "__main__":
-    results = parallel_generatehxw()
-    print("Result")
-    for result in results:
-        print(result)
+    # results = parallel_generatehxw()
+    # print("Result")
+    # for result in results:
+    #     print(result)
 
-    # p = (8, 8,
-    #                       [
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                           [-1, -1, -1, -1,  3, -1, -1, -1,  1],
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                           [-1,  2, -1,  3, -1,  3,  3, -1, -1],
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                           [-1,  3,  1, -1,  3,  2, -1, -1,  1],
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                           [-1, -1, -1,  1, -1,  1, -1, -1, -1],
-    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    #                       ])
-    # ans1 = solve_ostil(*p)
-    # print("Answer1")
-    # print(ans1[0])
-    # print(stringify_array(ans1[1], {True: '#', False: '.', None: '?'}))
-    # print("Answer1")
+    p = (8, 8,
+                          [
+                              [-1, -1, -1,  1,  0, -1, -1, -1, -1],
+                              [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+                              [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+                              [-1, -1, -1, -1, -1,  2,  3,  3, -1],
+                              [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+                              [-1, -1, -1, -1, -1,  2, -1, -1, -1],
+                              [-1,  3, -1, -1, -1, -1, -1, -1, -1],
+                              [-1, -1,  3, -1,  1, -1,  1, -1, -1],
+                              [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+
+                          ])
+    ans1 = solve_ostil_2(*p)
+    print("Answer1")
+    print(ans1[0])
+    print(stringify_array(ans1[1], common_rules.BW_MAP))
+    print("Answer1")

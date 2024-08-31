@@ -1,108 +1,54 @@
-﻿problem = [
-    [-1,  0, -1, -1],
-    [-1,  1, -1,  1],
-    [-1, -1,  1, -1],
-    [-1, -1, -1, -1],
+﻿def rotate_90(matrix):
+    return [list(row) for row in zip(*matrix[::-1])]
+
+
+def rotate_180(matrix):
+    return rotate_90(rotate_90(matrix))
+
+
+def rotate_270(matrix):
+    return rotate_90(rotate_180(matrix))
+
+
+def transform_matrix_with_fixed_edges(matrix, l):
+    size = 2 * l + 3
+    new_matrix = [row[:] for row in matrix]
+
+    # Extract submatrices
+    top_left = [row[1:l + 1] for row in matrix[1:l + 1]]
+    top_right = [row[l + 2:2 * l + 2] for row in matrix[1:l + 1]]
+    bottom_left = [row[1:l + 1] for row in matrix[l + 2:2 * l + 2]]
+    bottom_right = [row[l + 2:2 * l + 2] for row in matrix[l + 2:2 * l + 2]]
+
+    # Rotate submatrices
+    top_right_rotated = rotate_90(top_right)
+    bottom_right_rotated = rotate_180(bottom_right)
+    bottom_left_rotated = rotate_270(bottom_left)
+
+    # Place rotated submatrices back into the new matrix
+    for i in range(l):
+        new_matrix[1 + i][l + 2:2 * l + 2] = top_right_rotated[i]
+        new_matrix[l + 2 + i][l + 2:2 * l + 2] = bottom_right_rotated[i]
+        new_matrix[l + 2 + i][1:l + 1] = bottom_left_rotated[i]
+
+    return new_matrix
+
+
+# Test case
+l = 3
+input_matrix = [
+    [ 0,  1,  2,  3,  4,  5,  6,  7,  8],
+    [ 9, 10, 11, 12, 13, 14, 15, 16, 17],
+    [18, 19, 20, 21, 22, 23, 24, 25, 26],
+    [27, 28, 29, 30, 31, 32, 33, 34, 35],
+    [36, 37, 38, 39, 40, 41, 42, 43, 44],
+    [45, 46, 47, 48, 49, 50, 51, 52, 53],
+    [54, 55, 56, 57, 58, 59, 60, 61, 62],
+    [63, 64, 65, 66, 67, 68, 69, 70, 71],
+    [72, 73, 74, 75, 76, 77, 78, 79, 80]
 ]
-problem = [
-    [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1,  1,  1, -1],
-    [-1,  0,  1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-    [ 0, -1, -1, -1, -1, -1],
-]
-problem = [
-    [ 1,  0,  1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1],
-    [-1,  1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1],
-]
-problem = [
-    [ 1,  0,  1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-    [-1,  1, -1, -1,  1, -1],
-    [-1, -1,  1, -1, -1, -1],
-    [-1,  1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-]
-
-height = len(problem)
-width = len(problem[0])
-
-from cspuz import Solver, graph
-from cspuz.constraints import count_true, fold_and, fold_or, then
-from cspuz.puzzle.util import stringify_grid_frame, stringify_array
-
-solver = Solver()
-is_black = solver.bool_array((height, width))
-solver.add_answer_key(is_black)
-
-black_group_id, black_group_size = graph.connected_groups(solver, is_black)
-white_group_id, white_group_size = graph.connected_groups(solver, ~is_black)
-# solver.add_answer_key(black_group_id, black_group_size)
-# solver.add_answer_key(white_group_id, white_group_size)
 
 
-for y in range(height):
-    for x in range(width):
-        if problem[y][x] != -1:
-            solver.ensure(is_black[y, x] == (problem[y][x] == 1))
-
-# 黒マスは4マスになる
-for y in range(height):
-    for x in range(width):
-        solver.ensure(then(is_black[y, x], black_group_size[y, x] == 4))
-
-
-# # 00
-# # 01 のパターンを許さない -> 白マスが長方形を形成する
-# for y in range(height - 1):
-#     for x in range(width - 1):
-#         solver.ensure(count_true(is_black[y:y+2, x:x+2]) != 1)
-
-# 白マスがひとつながり
-graph.active_vertices_connected(solver, ~is_black)
-
-# # 白マスが2x2にならない
-# solver.ensure(
-#     is_black[:-1, :-1] |
-#     is_black[:-1, 1:] |
-#     is_black[1:, :-1] |
-#     is_black[1:, 1:]
-# )
-
-
-# # すべての行・列において、黒マスの数が同じ
-# same_count = solver.int_var(0, max(height, width))
-# # solver.ensure(same_count == 4)
-# solver.add_answer_key(same_count)
-# for y in range(height):
-#     solver.ensure(count_true(is_black[y]) == same_count)
-# for x in range(width):
-#     solver.ensure(count_true(is_black[:, x]) == same_count)
-
-# # 黒マスが連続しない
-# graph.active_vertices_not_adjacent(solver, is_black)
-
-has_answer = solver.solve()
-print(has_answer)
-
-if has_answer:
-    print(stringify_array(is_black, {True: '#', False: '.', None: '?'}))
-    print()
-    print("group_id")
-    for y in range(height):
-        for x in range(width):
-            print(black_group_id[y, x].sol or '.', end=' ')
-        print()
-    print()
-    print(f"group_size")
-    for y in range(height):
-        for x in range(width):
-            print(black_group_size[y, x].sol or '.', end=' ')
-        print()
+output_matrix = transform_matrix_with_fixed_edges(input_matrix, l)
+for row in output_matrix:
+    print(row)

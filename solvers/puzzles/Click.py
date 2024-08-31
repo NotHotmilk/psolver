@@ -1,41 +1,41 @@
 ﻿problem = [
-    [-1, -1, -1, -1,  1, -1, -1],
-    [-1,  2, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, 1, -1, -1],
+    [-1, 2, -1, -1, -1, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1,  1, -1, -1,  1],
+    [-1, -1, -1, 1, -1, -1, 1],
     [-1, -1, -1, -1, -1, -1, -1],
-    [-1,  2, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1,  0],
+    [-1, 2, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, 0],
 ]
 height = 6
 width = 6
 
 problem = [
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1,  1, -1, -1, -1, -1, -1,  1, -1],
+    [-1, 1, -1, -1, -1, -1, -1, 1, -1],
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1,  2, -1, -1, -1, -1],
-    [-1,  2, -1, -1, -1, -1,  3, -1, -1],
+    [-1, -1, -1, -1, 2, -1, -1, -1, -1],
+    [-1, 2, -1, -1, -1, -1, 3, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1,  2, -1, -1, -1, -1, -1,  1, -1],
+    [-1, 2, -1, -1, -1, -1, -1, 1, -1],
     [-1, -1, -1, -1, -1, -1, -1, -1, -1],
 ]
 height = 8
 width = 8
 
-
 from cspuz import Solver, graph
 from cspuz.constraints import count_true, fold_and
 from cspuz.puzzle.util import stringify_array, stringify_grid_frame
+import common_rules
 
 solver = Solver()
 is_black = solver.bool_array((height, width))
 solver.add_answer_key(is_black)
 
 # 問題の条件を追加
-for y in range(height+1):
-    for x in range(width+1):
+for y in range(height + 1):
+    for x in range(width + 1):
         if problem[y][x] != -1:
             solver.ensure(
                 count_true(
@@ -67,6 +67,8 @@ for x in range(width):
 has_answer = solver.solve()
 print(has_answer)
 
+from colorize import Color as C
+
 if has_answer:
-    print(stringify_array(is_black, {True: "#", False: ".", None: "?"}))
+    print(stringify_array(is_black, common_rules.BW_MAP))
     print(same_count.sol)

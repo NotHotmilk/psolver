@@ -4,6 +4,7 @@ from cspuz.constraints import count_true, fold_and, fold_or, then, alldifferent,
 from cspuz.puzzle.util import stringify_grid_frame, stringify_array, encode_array
 from cspuz.generator import generate_problem, count_non_default_values, ArrayBuilder2D
 
+
 solver = Solver()
 
 # 箱の定数
@@ -14,16 +15,37 @@ BB = 1
 CC = 2
 DD = 3
 EE = 4
-P1 = 0
-P2 = 1
-P3 = 2
-P4 = 3
-P5 = 4
-RED = 0
-BLUE = 1
-GREEN = 2
-YELLOW = 3
-GRAY = 4
+P1 = 5
+P2 = 6
+P3 = 7
+P4 = 8
+P5 = 9
+RED = 10
+BLUE = 11
+GREEN = 12
+YELLOW = 13
+ASH = 14
+
+def e名前と値段(name, price):
+    if AA <= name <= EE and P1 <= price <= P5:
+        return NAMEandPRICE[name, price%5]
+    else:
+        print("e名前と値段 Error")
+        exit()
+
+def e名前と色(name, color):
+    if AA <= name <= EE and RED <= color <= ASH:
+        return NAMEandCOLOR[name, color%5]
+    else:
+        print("e名前と色 Error")
+        exit()
+
+def e色と値段(color, price):
+    if RED <= color <= ASH and P1 <= price <= P5:
+        return COLORandPRICE[color%5, price%5]
+    else:
+        print("e色と値段 Error")
+        exit()
 
 # 正直者、嘘つき
 is_honest = solver.bool_array(5)
@@ -34,9 +56,9 @@ NAMEandPRICEofRED = solver.bool_array((5, 5))
 NAMEandPRICEofBLUE = solver.bool_array((5, 5))
 NAMEandPRICEofGREEN = solver.bool_array((5, 5))
 NAMEandPRICEofYELLOW = solver.bool_array((5, 5))
-NAMEandPRICEofGRAY = solver.bool_array((5, 5))
+NAMEandPRICEofASH = solver.bool_array((5, 5))
 
-layers = [NAMEandPRICEofRED, NAMEandPRICEofBLUE, NAMEandPRICEofGREEN, NAMEandPRICEofYELLOW, NAMEandPRICEofGRAY]
+layers = [NAMEandPRICEofRED, NAMEandPRICEofBLUE, NAMEandPRICEofGREEN, NAMEandPRICEofYELLOW, NAMEandPRICEofASH]
 
 NAMEandPRICE = solver.bool_array((5, 5))
 NAMEandCOLOR = solver.bool_array((5, 5))
@@ -81,54 +103,34 @@ for y in range(5):
         vline = layers[y][:, x]
         solver.ensure(COLORandPRICE[y, x] == fold_or(vline))
 
+
+
 # ここに問題のセリフを追加 カンマで区切ると特殊なandを意味する 文区切りでfold_andで囲う必要あり
 # 簡単のためにすべて真実の箱とする
 solver.ensure(fold_and(is_honest))
 
-# AAの箱「AとDは同種の箱　AとBの箱は奇数ドルではない（偶数）　AAの箱は赤か青　　　実際は AとDは異種　AとBの箱は偶数ドルではない AAの箱は赤でも青でもない
+# AAの箱
 ensuresA = [
-    fold_and(
-        ~NAMEandPRICE[AA, P2] & ~NAMEandPRICE[AA, P4],
-        ~NAMEandPRICE[BB, P2] & ~NAMEandPRICE[BB, P4],
-    ),
-    ~NAMEandCOLOR[AA, RED] & ~NAMEandCOLOR[AA, BLUE],  # AAの箱は赤か青
+    e名前と色(EE, RED)
 ]
 
-# BBの箱「DとEは同類　赤と青にはの値段差は２ドル以下」　実際は　DとEは異種　赤の箱と青の箱には3ドル以上の値段差がある
+# BBの箱
 ensuresB = [
-    fold_or(
-        (COLORandPRICE[RED, P1] & COLORandPRICE[BLUE, P4]),
-        (COLORandPRICE[RED, P1] & COLORandPRICE[BLUE, P5]),
-        (COLORandPRICE[RED, P2] & COLORandPRICE[BLUE, P5]),
-        (COLORandPRICE[RED, P4] & COLORandPRICE[BLUE, P1]),
-        (COLORandPRICE[RED, P5] & COLORandPRICE[BLUE, P2]),
-    )
 ]
 
-# CCの箱「AがCを虚偽の箱だといった　DとEの箱のどちらかが緑の箱である　Eの箱は4ドルである　真実
+# CCの箱
 ensuresC = [
-    NAMEandCOLOR[DD, GREEN] | NAMEandCOLOR[EE, GREEN],
-    NAMEandPRICE[EE, P4],
+
 ]
 
-# DDの箱「緑の箱と黄色の箱には奇数ドルある 真実
+# DDの箱
 ensuresD = [
-    fold_and(
-        ~COLORandPRICE[GREEN, P4],
-        ~COLORandPRICE[YELLOW, P4],
-        ~COLORandPRICE[GREEN, P2],
-        ~COLORandPRICE[YELLOW, P2],
-    )
+
 ]
 
-import itertools
-
-# EEの箱「Eは緑の箱だ　Dの箱のほうがBより高い　Bは5ドルだ」　実際は Eは緑の箱ではない　Bの箱のほうがDの箱より高い値段である　Bは5ドルではない
+# EEの箱
 ensuresE = [
-    fold_or(
-        NAMEandPRICE[BB, b] & NAMEandPRICE[DD, d] for b, d in itertools.product(range(5), range(5)) if b > d
-    ),
-    ~COLORandPRICE[BB, P5],
+
 ]
 
 # 割り振りしないといけない

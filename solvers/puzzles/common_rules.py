@@ -3,8 +3,30 @@ from cspuz.constraints import fold_or, fold_and, then, count_true
 from cspuz.puzzle.util import stringify_grid_frame, stringify_array
 from cspuz.array import BoolArray2D
 
+from colorize import Color as C
+
+BW_MAP = {True: C.BOLD + "#" + C.RESET, False: C.WHITE + "." + C.RESET, None: "?"}
+NUM_MAP = {None: "?",
+           0: C.WHITE + "." + C.RESET,
+           1: C.RED + "1" + C.RESET,
+           2: C.GREEN + "2" + C.RESET,
+           3: C.BLUE + "3" + C.RESET,
+           4: C.YELLOW + "4" + C.RESET,
+           5: C.MAGENTA + "5" + C.RESET,
+           6: C.CYAN + "6" + C.RESET,
+           7: C.BLACK + "7" + C.RESET,
+           8: C.BG_RED + "8" + C.RESET,
+           9: C.BG_GREEN + "9" + C.RESET,
+           10: C.BG_BLUE + "10" + C.RESET,
+           11: C.BG_YELLOW + "11" + C.RESET,
+           12: C.BG_MAGENTA + "12" + C.RESET,
+           13: C.BG_CYAN + "13" + C.RESET,
+           14: C.BG_BLACK + "14" + C.RESET}
+
 
 # 2*2禁
+
+
 def not_forming_2by2_square(solver: Solver, is_black: BoolArray2D):
     solver.ensure(~(
             is_black[:-1, :-1] & is_black[:-1, 1:] & is_black[1:, :-1] & is_black[1:, 1:]
