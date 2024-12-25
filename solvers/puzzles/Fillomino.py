@@ -54,19 +54,18 @@ if __name__ == "__main__":
     # height = 8
     # width = 8
     problem = [
-        [0, 1, 0, 1, 3, 0],
+        [4, 0, 4, 0, 0, 4],
+        [1, 0, 0, 0, 0, 3],
         [0, 0, 0, 3, 0, 0],
-        [0, 4, 0, 0, 0, 3],
-        [2, 0, 0, 0, 0, 0],
-        [0, 0, 3, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0],
+        [0, 0, 2, 0, 0, 0],
+        [3, 0, 0, 0, 0, 3],
+        [4, 0, 0, 4, 0, 1],
 
     ]
     height = len(problem)
     width = len(problem[0])
     is_sat, answer = solve_fillomino(height, width, problem)
     if is_sat:
-        print(util.stringify_array(answer, lambda x: "?" if x is None else str(x)))
         print(util.stringify_array(answer, common_rules.NUM_MAP))
     else:
         print("no answer")

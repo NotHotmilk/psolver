@@ -65,6 +65,17 @@ def generate_ostil(height, width, symmetry=False, verbose=False):
 
         return ret
 
+    def penalty2(problem):
+        ret = 0
+        for y in range(height + 1):
+            for x in range(width + 1):
+                if problem[y][x] == 4:
+                    ret += 40
+                elif problem[y][x] != -1:
+                    ret += 10
+
+        return ret
+
     def compute_score(ans: graph.BoolArray2D):
         score = 0
         for a in ans:
@@ -76,7 +87,7 @@ def generate_ostil(height, width, symmetry=False, verbose=False):
     generated = generate_problem(lambda problem: solve_ostil_2(height, width, problem),
                                  builder_pattern=ArrayBuilder2D(height + 1, width + 1, [-1, 0, 1, 2, 3, 4], default=-1,
                                                                 symmetry=symmetry),
-                                 clue_penalty=penalty,
+                                 clue_penalty=penalty2,
                                  # lambda problem: count_non_default_values(problem, default=-1, weight=10),
                                  score=compute_score,
                                  verbose=verbose)
@@ -85,7 +96,7 @@ def generate_ostil(height, width, symmetry=False, verbose=False):
 
 def generatehxw(height, width):
     print("Generating")
-    problem = generate_ostil(height, width, symmetry=False, verbose=True)
+    problem = generate_ostil(height, width, symmetry=True, verbose=True)
     print(cspuz.puzzle.util.encode_array(problem, empty=-1))
     print(stringify_array(problem, str))
     link = 'https://puzz.link/p?creek/{}/{}/{}'.format(width, height, encode_array(problem, empty=-1))
@@ -104,30 +115,30 @@ def parallel_generatehxw():
 
 
 def generatehxw_wrapper(_):
-    return generatehxw(6, 6)
+    return generatehxw(8, 8)
 
 
 if __name__ == "__main__":
-    # results = parallel_generatehxw()
-    # print("Result")
-    # for result in results:
-    #     print(result)
+    results = parallel_generatehxw()
+    print("Result")
+    for result in results:
+        print(result)
 
-    p = (8, 8,
-                          [
-                              [-1, -1, -1,  1,  0, -1, -1, -1, -1],
-                              [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-                              [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-                              [-1, -1, -1, -1, -1,  2,  3,  3, -1],
-                              [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-                              [-1, -1, -1, -1, -1,  2, -1, -1, -1],
-                              [-1,  3, -1, -1, -1, -1, -1, -1, -1],
-                              [-1, -1,  3, -1,  1, -1,  1, -1, -1],
-                              [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-
-                          ])
-    ans1 = solve_ostil_2(*p)
-    print("Answer1")
-    print(ans1[0])
-    print(stringify_array(ans1[1], common_rules.BW_MAP))
-    print("Answer1")
+    # p = (8, 8,
+    #                       [
+    #                           [-1, -1, -1,  1,  0, -1, -1, -1, -1],
+    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    #                           [-1, -1, -1, -1, -1,  2,  3,  3, -1],
+    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    #                           [-1, -1, -1, -1, -1,  2, -1, -1, -1],
+    #                           [-1,  3, -1, -1, -1, -1, -1, -1, -1],
+    #                           [-1, -1,  3, -1,  1, -1,  1, -1, -1],
+    #                           [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    #
+    #                       ])
+    # ans1 = solve_ostil_2(*p)
+    # print("Answer1")
+    # print(ans1[0])
+    # print(stringify_array(ans1[1], common_rules.BW_MAP))
+    # print("Answer1")

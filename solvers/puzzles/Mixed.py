@@ -55,12 +55,12 @@ def solve_mixed_puzzle(height, width, problem):
 def generate_mixed_puzzle(height, width, verbose=False, symmetry=False):
     def penalty(problem):
         ret = 0
-        # for y in range(height):
-        #     for x in range(width):
-        #         if problem[y][x] == -1:
-        #             ret += 2
-        #         elif problem[y][x] != -2:
-        #             ret += 2
+        for y in range(height):
+            for x in range(width):
+                if problem[y][x] == -1:
+                    ret += 2
+                elif problem[y][x] != -2:
+                    ret += 2
         return ret
 
     def compute_score(*answers):

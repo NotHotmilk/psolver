@@ -7,40 +7,13 @@ import common_rules
 
 
 # blocks: 3次元int配列
-def solve_blocks(height: int, width: int, blocks: list[list[list[int]]], setting: int = 0):
+def solve_leave_square(height: int, width: int, blocks: list[list[list[int]]], setting: int = 0):
     solver = Solver()
     kind = solver.int_array((height, width), 0, len(blocks))
     has_block = solver.bool_array((height, width))
     solver.add_answer_key(kind)
 
-    # ポリオミノの条件
-    for i in range(len(blocks)):
-        block = blocks[i]
-        # 0のみの行を削除
-        block = [row for row in block if any(row)]
-        # 0のみの列を削除
-        block = list(map(list, zip(*[col for col in zip(*block) if any(col)])))
-
-        b_height = len(block)
-        b_width = len(block[0])
-
-        i = i + 1
-
-        conditions = []
-        for y in range(height - b_height + 1):
-            for x in range(width - b_width + 1):
-
-                b = [[0] * width for _ in range(height)]
-                for yy in range(b_height):
-                    for xx in range(b_width):
-                        if block[yy][xx] == 1:
-                            b[y + yy][x + xx] = 1
-                # iのマスとbのマスが一致するか
-
-                conditions.append(
-                    fold_and((kind[Y, X] == i) == (b[Y][X] == 1) for Y in range(height) for X in range(width)))
-
-        solver.ensure(count_true(conditions) == 1)
+    common_rules.place_polyomino(solver, kind, height, width, blocks)
 
     # # 正方形の条件
     solver.ensure((kind == 0) == (~has_block))
@@ -64,6 +37,11 @@ def solve_blocks(height: int, width: int, blocks: list[list[list[int]]], setting
     for y in range(height):
         for x in range(width):
             solver.ensure((kind[y, x] == 0).then(to_up[y, x] + to_down[y, x] == to_left[y, x] + to_right[y, x]))
+
+    # 補助. 長方形条件
+    for y in range(height - 1):
+        for x in range(width - 1):
+            solver.ensure(count_true(kind[y:y + 2, x:x + 2] == 0) != 3)
 
     # モード
     if setting == 0:
@@ -89,55 +67,99 @@ def solve_blocks(height: int, width: int, blocks: list[list[list[int]]], setting
 
 
 if __name__ == "__main__":
-    #
-    # # solve(0) or enumerate(1)
-    # setting = 1
-    #
-    # height, width = 5, 5
-    # blocks = [
-    #     [
-    #         [1, 0],
-    #         [1, 1],
-    #     ],
-    #     [
-    #         [1, 1, 1],
-    #         [0, 1, 0],
-    #     ],
-    #     [
-    #         [1, 1, 1],
-    #         [1, 0, 1],
-    #         [1, 0, 1],
-    #     ],
-    #     [
-    #         [1, 1, 1]
-    #     ],
-    #     [
-    #         [0, 1],
-    #         [1, 1],
-    #         [1, 0],
-    #     ]
-    # ]
+
+    P1 = [
+        [0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 1, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P2 = [
+        [0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P3 = [
+        [0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P4 = [
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 1, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P5 = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P6 = [
+        [0, 1, 0, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P7 = [
+        [0, 0, 1, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P8 = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P9 = [
+        [0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P10 = [
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+    P11 = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
 
     # solve(0) or enumerate(1)
     setting = 1
 
-    height, width = 5, 3
-    blocks = [
-        [
-            [0, 0, 1],
-            [0, 0, 1],
-            [1, 1, 1],
-        ],
-        [
-            [1, 1, 1],
-        ],
-        [
-            [1, 1],
-        ],
+    from common_rules import Pentomino as P
 
+    height, width = 7, 7
+    blocks = [
+        P1, P2, P3, P4, P7, P9
     ]
 
-    is_sat, answer = solve_blocks(height, width, blocks, setting)
+    is_sat, answer = solve_leave_square(height, width, blocks, setting)
+
+
+
 
     if setting == 0:
         if is_sat:
@@ -152,4 +174,4 @@ if __name__ == "__main__":
         if is_sat:
             print("sat")
         else:
-            print("no answer")
+            print("探索終了")

@@ -1,135 +1,82 @@
+import sys
+import subprocess
+
 import cspuz
 from cspuz import Solver, graph
-from cspuz.constraints import count_true, fold_and, fold_or, then
-from cspuz.puzzle.util import stringify_grid_frame, stringify_array, encode_array
+from cspuz.puzzle import util
+from cspuz.constraints import count_true, fold_or, fold_and
 from cspuz.generator import generate_problem, count_non_default_values, ArrayBuilder2D
-import common_rules
-
-WHITE = 0
-BLACK = 1
-GRAY = 2
 
 
-def solve_test(height, width, problem):
+def solve_fillomino(height, width, problem, checkered=False):
     solver = Solver()
-    cells = solver.int_array((height, width), 0, 2)
-    solver.add_answer_key(cells)
-
-    # for y in range(height):
-    #     for x in range(width):
-    #         if problem[y][x] != -1:
-    #             solver.ensure(cells[y, x] == problem[y][x])
+    size = solver.int_array((height, width), 1, height * width)
+    solver.add_answer_key(size)
+    border = graph.BoolInnerGridFrame(solver, height, width)
+    graph.division_connected_variable_groups_with_borders(
+        solver, group_size=size, is_border=border
+    )
+    solver.ensure(border.vertical == (size[:, :-1] != size[:, 1:]))
+    solver.ensure(border.horizontal == (size[:-1, :] != size[1:, :]))
 
     for y in range(height):
         for x in range(width):
-            if problem[y][x] != -1:
-                solver.ensure(cells[y, x] == WHITE)
-                solver.ensure(count_true(
-                    cells[max(0, y - 1):min(y + 2, height), max(0, x - 1):min(x + 2, width)] == GRAY
-                ) == problem[y][x])
+            if problem[y][x] >= 1:
+                solver.ensure(size[y, x] == problem[y][x])
 
-    # for y in range(height):
-    #     for x in range(width):
-    #         solver.ensure(
-    #             count_true(
-    #                 cells[max(0, y - 1):min(y + 2, height), max(0, x - 1):min(x + 2, width)] == GRAY
-    #             )
-    #             <= 1
-    #         )
+    for y in range(height):
+        for x in range(width):
+            left = border.horizontal[y - 1, x - 1]
+            right = border.horizontal[y - 1, x]
+            up = border.vertical[y - 1, x - 1]
+            down = border.vertical[y, x - 1]
+            solver.ensure(~(left & right & up & down))
 
-    common_rules.not_forming_2by2_square(solver, (cells == WHITE) | (cells == GRAY))
-    graph.active_vertices_not_adjacent(solver, cells == GRAY)
-    graph.active_vertices_connected(solver, (cells == GRAY) | (cells == BLACK))
-    graph.active_vertices_connected(solver, (cells == WHITE) | (cells == GRAY))
-
-    # for y in range(height):
-    #     for x in range(width):
-    #         solver.ensure(then(cells[y, x] == BLACK, count_true(
-    #             cells[max(0, y - 1):min(y + 2, height), x] == BLACK,
-    #             cells[y, max(0, x - 1):min(x + 2, width)] == BLACK
-    #         ) == 3))
-
-    common_rules.all_black_blocks_have_same_area_2(solver, cells == BLACK, problem, height, width)
-
-    has_answer = solver.solve()
-    return has_answer, cells
+    if checkered:
+        color = solver.bool_array((height, width))
+        solver.ensure(border.vertical == (color[:, :-1] != color[:, 1:]))
+        solver.ensure(border.horizontal == (color[:-1, :] != color[1:, :]))
+    is_sat = solver.solve()
+    return is_sat, size
 
 
-def generate_test(height, width, symmetry=False, verbose=False):
-    generated = generate_problem(lambda problem: solve_test(height, width, problem),
-                                 builder_pattern=ArrayBuilder2D(height, width, [-1, 0, 1, 2, 3, 4], default=-1,
-                                                                symmetry=symmetry),
-                                 clue_penalty=lambda problem: count_non_default_values(problem, default=-1, weight=10),
-                                 verbose=verbose)
+def generate_fillomino(
+        height, width, checkered=False, disallow_adjacent=False, symmetry=False, verbose=False
+):
+    generated = generate_problem(
+        lambda problem: solve_fillomino(height, width, problem, checkered=checkered),
+        builder_pattern=ArrayBuilder2D(
+            height,
+            width,
+            range(0, 9),
+            default=0,
+            disallow_adjacent=disallow_adjacent,
+            symmetry=symmetry,
+        ),
+        clue_penalty=lambda problem: count_non_default_values(problem, default=0, weight=5),
+        verbose=verbose,
+    )
     return generated
 
 
-from Shugaku import serialize_shugaku
-
-
-def generatehxw(height, width):
-    print("Generating")
-    problem = generate_test(height, width, symmetry=False, verbose=True)
-    has_answer, answer = solve_test(height, width, problem)
-
-    print(stringify_array(problem, {0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "x", -1: "."}))
-    print()
-    print(stringify_array(answer, {BLACK: '##', WHITE: '..', GRAY: '()', None: '??'}))
-    print()
-    print(serialize_shugaku(problem))
-
-    return serialize_shugaku(problem)
-
-
-import multiprocessing
-
-
-def parallel_generatehxw():
-    with multiprocessing.Pool(processes=4) as pool:
-        results = pool.map(generatehxw_wrapper, range(4))
-    return results
-
-
-def generatehxw_wrapper(_):
-    return generatehxw(8, 8)
-
+import common_rules
 
 if __name__ == "__main__":
-    results = parallel_generatehxw()
-    print("Result")
-    for result in results:
-        print(result)
+    # height = 8
+    # width = 8
+    problem = [
+        [0, 0, 0, 0, 0, 0],
+        [2, 0, 0, 0, 4, 0],
+        [0, 0, 0, 2, 0, 0],
+        [0, 0, 0, 3, 0, 0],
+        [0, 0, 0, 1, 0, 3],
+        [1, 0, 0, 0, 0, 1],
 
-# if __name__ == '__main__':
-#     height = 6
-#     width = 6
-#     problem = [
-#         [-1, 3, -1, -1, 1, -1],
-#         [-1, -1, -1, 2, -1, -1],
-#         [-1, -1, -1, -1, -1, -1],
-#         [-1, -1, 0, -1, -1, -1],
-#         [-1, -1, -1, -1, 2, -1],
-#         [-1, -1, -1, -1, -1, -1],
-#     ]
-#
-#     height = 6
-#     width = 6
-#     problem = [
-#         [-1, -1, -1, -1, -1, 0],
-#         [1, -1, 4, -1, -1, -1],
-#         [-1, -1, -1, -1, 1, -1],
-#         [-1, -1, -1, -1, -1, -1],
-#         [-1, 2, -1, -1, -1, -1],
-#         [-1, -1, -1, -1, -1, -1],
-#     ]
-#
-#     has_answer, answer = solve_test(height, width, problem)
-#     if has_answer:
-#         print(stringify_array(answer, {
-#             BLACK: '##',
-#             WHITE: '..',
-#             GRAY: '()',
-#             None: '??'
-#         }))
-#     else:
-#         print('no answer')
+    ]
+    height = len(problem)
+    width = len(problem[0])
+    is_sat, answer = solve_fillomino(height, width, problem)
+    if is_sat:
+        print(util.stringify_array(answer, common_rules.NUM_MAP))
+    else:
+        print("no answer")

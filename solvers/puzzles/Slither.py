@@ -86,7 +86,7 @@ def deserialize_slitherlink(url):
 
 if __name__ == "__main__":
     cspuz.config.solver_timeout = 1800.0
-    height, width = 20, 20
+    height, width = 10, 10
     problem = generate_slitherlink(height, width, symmetry=True, verbose=True, disallow_adjacent=False)
     if problem is not None:
         print(util.stringify_array(problem, {-1: ".", 0: "0", 1: "1", 2: "2", 3: "3"}))
