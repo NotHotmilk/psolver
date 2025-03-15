@@ -5,23 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="992e3db7-acb7-4a1c-8803-c954af57e861" name="Changes" comment="add new solvers">
-      <change afterPath="$PROJECT_DIR$/solvers/puzzles/old/Tsunagari.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/psolver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/psolver.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/AroundMaze.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/AroundMaze.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Blocks.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/LeaveSquare.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Fillomino.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Fillomino.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Koburin.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Koburin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Mixed.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Mixed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/OstilSolver.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/OstilSolver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Otonari.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Otonari.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Sdouri.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/old/Sdouri.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/practice/Test/Test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/practice/Test/Test2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/practice/Test/Test3.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/practice/Test/Test3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Kabemimi.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Kabemimi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Shugaku.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Shugaku.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solvers/puzzles/Slither.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Slither.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Sukon.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/old/Sukon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/Tsunagari.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/Tsunagari.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solvers/puzzles/common_rules.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/common_rules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solvers/puzzles/rule base solver/NuriP.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/rule base solver/NuriP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solvers/puzzles/old/Sukon.py" beforeDir="false" afterPath="$PROJECT_DIR$/solvers/puzzles/old/Sukon.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Jupyter Notebook" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -80,6 +71,7 @@
     &quot;Python.Matrix.executor&quot;: &quot;Run&quot;,
     &quot;Python.NuriP.executor&quot;: &quot;Run&quot;,
     &quot;Python.OstilSolver.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SentaiShowUI.executor&quot;: &quot;Run&quot;,
     &quot;Python.Tetritory.executor&quot;: &quot;Run&quot;,
     &quot;Python.TetritorySolver.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -90,7 +82,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -101,15 +93,14 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" show_stripe_button="false" />
       <window_info id="Learn" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15911458" />
-      <window_info id="Commit" order="1" weight="0.11588542" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11796875" />
+      <window_info id="Commit" order="1" weight="0.11901042" />
       <window_info id="Welcome to GitHub Copilot" order="2" show_stripe_button="false" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.11588542" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" show_stripe_button="false" />
       <window_info anchor="bottom" id="File Transfer" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Find" />
       <window_info anchor="bottom" id="Jupyter" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.32994187" />
       <window_info anchor="bottom" id="Problems" order="1" />
@@ -119,6 +110,7 @@
       <window_info anchor="bottom" id="Python Packages" order="5" weight="0.1" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.32994187" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.1" />
+      <window_info anchor="bottom" id="Find" order="8" weight="0.32994187" />
       <window_info anchor="right" id="Endpoints" show_stripe_button="false" />
       <window_info anchor="right" id="documentation.v2" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
@@ -130,9 +122,9 @@
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
       <window_info anchor="right" id="Key Promoter X" order="5" show_stripe_button="false" />
       <window_info anchor="right" id="Plots" order="6" weight="0.1" />
-      <window_info anchor="right" id="github.copilotToolWindow" order="8" weight="0.40807292" />
-      <window_info anchor="right" id="GitHub Copilot Chat" order="9" sideWeight="0.68587744" weight="0.41223958" />
-      <window_info active="true" anchor="right" x="309" y="-10" width="633" height="1133" id="Run" internal_type="SLIDING" order="10" sideWeight="0.31412253" side_tool="true" type="SLIDING" visible="true" weight="0.3763021" />
+      <window_info anchor="right" id="github.copilotToolWindow" order="7" weight="0.29348958" />
+      <window_info anchor="right" id="GitHub Copilot Chat" order="8" sideWeight="0.68587744" weight="0.41223958" />
+      <window_info active="true" anchor="right" x="309" y="-10" width="633" height="1133" id="Run" order="9" sideWeight="0.31412253" side_tool="true" visible="true" />
     </layout>
   </component>
   <component name="RecentsManager">
@@ -301,6 +293,19 @@
       <workItem from="1734718092036" duration="2352000" />
       <workItem from="1734783210929" duration="3001000" />
       <workItem from="1734825614649" duration="5192000" />
+      <workItem from="1735096541786" duration="236000" />
+      <workItem from="1736244938508" duration="658000" />
+      <workItem from="1737199969701" duration="2466000" />
+      <workItem from="1737924016248" duration="3739000" />
+      <workItem from="1738464104799" duration="3846000" />
+      <workItem from="1738499585837" duration="1049000" />
+      <workItem from="1738501054755" duration="15206000" />
+      <workItem from="1738551084713" duration="4011000" />
+      <workItem from="1738567620580" duration="51000" />
+      <workItem from="1738604966463" duration="1029000" />
+      <workItem from="1738661342649" duration="4828000" />
+      <workItem from="1738860041519" duration="2587000" />
+      <workItem from="1741550318959" duration="1265000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -334,7 +339,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725069362316</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add new solvers">
+      <option name="closed" value="true" />
+      <created>1735096761547</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1735096761547</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -360,10 +373,11 @@
     <SUITE FILE_PATH="coverage/psolver$TetritorySolver.coverage" NAME="TetritorySolver Coverage Results" MODIFIED="1713980230054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/solvers/puzzles" />
     <SUITE FILE_PATH="coverage/psolver$Tetritory.coverage" NAME="Tetritory Coverage Results" MODIFIED="1734826985276" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/solvers/puzzles" />
     <SUITE FILE_PATH="coverage/psolver$NuriP.coverage" NAME="NuriP Coverage Results" MODIFIED="1734652571604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/solvers/puzzles/rule base solver" />
-    <SUITE FILE_PATH="coverage/psolver$Current_File_A.coverage" NAME="Current File A Coverage Results" MODIFIED="1734834026309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/psolver$Current_File_A.coverage" NAME="Current File A Coverage Results" MODIFIED="1741550961218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/psolver$Matrix.coverage" NAME="Matrix Coverage Results" MODIFIED="1716134700347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/solvers/puzzles" />
     <SUITE FILE_PATH="coverage/psolver$Current_File_C.coverage" NAME="Current File C Coverage Results" MODIFIED="1725678831970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/psolver$OstilSolver.coverage" NAME="OstilSolver Coverage Results" MODIFIED="1713980373437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/solvers/puzzles" />
     <SUITE FILE_PATH="coverage/psolver$Current_File_B.coverage" NAME="Current File B Coverage Results" MODIFIED="1734652582460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/psolver$SentaiShowUI.coverage" NAME="SentaiShowUI Coverage Results" MODIFIED="1738503232662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/solvers/puzzles" />
   </component>
 </project>

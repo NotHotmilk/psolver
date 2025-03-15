@@ -85,6 +85,7 @@ def deserialize_slitherlink(url):
 
 
 if __name__ == "__main__":
+    cspuz.config.solver_timeout = 1800.0
     height, width = 10, 10
     problem = generate_slitherlink(height, width, symmetry=True, verbose=True, disallow_adjacent=False)
     if problem is not None:
@@ -92,3 +93,5 @@ if __name__ == "__main__":
         print(flush=True)
         print(serialize_slitherlink(problem))
         print(util.stringify_grid_frame(solve_slitherlink(height, width, problem)[1]))
+
+.0

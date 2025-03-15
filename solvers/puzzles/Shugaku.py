@@ -19,7 +19,7 @@ WEST = 2
 EAST = 3
 
 
-def solve_shugaku(height: int, width: int, problem: list[list[int]], variant = False):
+def solve_shugaku(height: int, width: int, problem: list[list[int]], variant=False):
     solver = Solver()
     kind = solver.int_array((height, width), 0, 3)
     direction = solver.int_array((height, width), 0, 3)
@@ -176,7 +176,7 @@ def serialize_shugaku(problem):
     return serialize_problem_as_url(SHUGAKU_COMBINATOR, "shugaku", height, width, problem)
 
 
-def generate_shugaku(height, width, verbose=False, symmetry=False, variant = False):
+def generate_shugaku(height, width, verbose=False, symmetry=False, variant=False):
     def penalty(problem):
         ret = 0
         for y in range(height):

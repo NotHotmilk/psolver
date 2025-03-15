@@ -1,54 +1,55 @@
-﻿def rotate_90(matrix):
-    return [list(row) for row in zip(*matrix[::-1])]
+﻿CENTER = 0
+INTERSECTION = 1
+VERTICAL = 2
+HORIZONTAL = 3
 
 
-def rotate_180(matrix):
-    return rotate_90(rotate_90(matrix))
+def reflect_cell(pos_type, sym_type, base, cell):
+    b_y, b_x = base
+    y, x = cell
 
+    y *= 2
+    x *= 2
 
-def rotate_270(matrix):
-    return rotate_90(rotate_180(matrix))
+    if pos_type == CENTER:
+        b_y = b_y * 2
+        b_x = b_x * 2
+    elif pos_type == INTERSECTION:
+        b_y = b_y * 2 + 1
+        b_x = b_x * 2 + 1
+    elif pos_type == VERTICAL:
+        b_y = b_y * 2
+        b_x = b_x * 2 + 1
+    elif pos_type == HORIZONTAL:
+        b_y = b_y * 2 + 1
+        b_x = b_x * 2
 
+    if sym_type == 1:
+        # 水平反転：y成分だけ反転
+        new_y = 2 * b_y - y
+        new_x = x
+    elif sym_type == 2:
+        # 垂直反転：x成分だけ反転
+        new_y = y
+        new_x = 2 * b_x - x
+    elif sym_type == 3:
+        # 斜め "/" の反転：
+        # 反転後の座標は (b_y - (x - b_x), b_x - (y - b_y))
+        new_y = b_y - (x - b_x)
+        new_x = b_x - (y - b_y)
+    elif sym_type == 4:
+        # 斜め "\" の反転：
+        # 反転後の座標は (b_y + (x - b_x), b_x + (y - b_y))
+        new_y = b_y + (x - b_x)
+        new_x = b_x + (y - b_y)
+    else:
+        raise ValueError("Invalid symmetry type. Must be 1, 2, 3, or 4.")
 
-def transform_matrix_with_fixed_edges(matrix, l):
-    size = 2 * l + 3
-    new_matrix = [row[:] for row in matrix]
+    if new_y % 2 != 0 or new_x % 2 != 0:
+        raise ValueError("Symmetry reflection is not an integer.")
 
-    # Extract submatrices
-    top_left = [row[1:l + 1] for row in matrix[1:l + 1]]
-    top_right = [row[l + 2:2 * l + 2] for row in matrix[1:l + 1]]
-    bottom_left = [row[1:l + 1] for row in matrix[l + 2:2 * l + 2]]
-    bottom_right = [row[l + 2:2 * l + 2] for row in matrix[l + 2:2 * l + 2]]
+    ry = new_y // 2
+    rx = new_x // 2
 
-    # Rotate submatrices
-    top_right_rotated = rotate_90(top_right)
-    bottom_right_rotated = rotate_180(bottom_right)
-    bottom_left_rotated = rotate_270(bottom_left)
+    return (ry, rx)
 
-    # Place rotated submatrices back into the new matrix
-    for i in range(l):
-        new_matrix[1 + i][l + 2:2 * l + 2] = top_right_rotated[i]
-        new_matrix[l + 2 + i][l + 2:2 * l + 2] = bottom_right_rotated[i]
-        new_matrix[l + 2 + i][1:l + 1] = bottom_left_rotated[i]
-
-    return new_matrix
-
-
-# Test case
-l = 3
-input_matrix = [
-    [ 0,  1,  2,  3,  4,  5,  6,  7,  8],
-    [ 9, 10, 11, 12, 13, 14, 15, 16, 17],
-    [18, 19, 20, 21, 22, 23, 24, 25, 26],
-    [27, 28, 29, 30, 31, 32, 33, 34, 35],
-    [36, 37, 38, 39, 40, 41, 42, 43, 44],
-    [45, 46, 47, 48, 49, 50, 51, 52, 53],
-    [54, 55, 56, 57, 58, 59, 60, 61, 62],
-    [63, 64, 65, 66, 67, 68, 69, 70, 71],
-    [72, 73, 74, 75, 76, 77, 78, 79, 80]
-]
-
-
-output_matrix = transform_matrix_with_fixed_edges(input_matrix, l)
-for row in output_matrix:
-    print(row)

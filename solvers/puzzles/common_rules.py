@@ -17,9 +17,9 @@ for i in range(1, 31):
     hue = ((i - 1) * 209) % 360  # 137, 97,211
     col = ColorHSL(hue, 50, 50)
     NUM_MAP[i] = f"{Effect.BOLD}{col}{i}{ColorHSL.OFF}{Effect.OFF}"
-#
-# for key, value in NUM_MAP.items():
-#     print(f"{key}: {value}")
+
+NUM_MAP_ZERO = NUM_MAP.copy()
+NUM_MAP_ZERO[0] = f"{Effect.BOLD}{ColorHSL(0, 0, 40)}0{ColorHSL.OFF}{Effect.OFF}"
 
 NUM_MAP_MANY = {None: "???"}
 upper_limit = 120
@@ -28,6 +28,15 @@ for i in range(upper_limit + 1):
     hue = ((i - 1) * cycle) % 360  # 色相を変化させる
     col = ColorHSL(hue, 50, 50)  # 色相(H), 彩度(S), 明度(L)を指定
     NUM_MAP_MANY[i] = f"{Effect.REVERSE}{Effect.BOLD}{col}{i:03d}{ColorHSL.OFF}{Effect.OFF}"  # 色を適用してNUM_MAPに追加
+
+class Triomino:
+    I = [
+        [1, 1, 1]
+    ]
+    L = [
+        [1, 0],
+        [1, 1],
+    ]
 
 
 class Tetromino:
@@ -196,42 +205,43 @@ def black_cells_form_rectangle(solver: Solver, is_black: BoolArray2D, height: in
             solver.ensure(count_true(is_black[y:y + 2, x:x + 2]) != 3)
 
 
-def rotate_block(block):
+# ここからはポリオミノ配置の制約
+def _rotate_block(block):
     """Blockを90度回転する"""
     return [list(row) for row in zip(*block[::-1])]
 
 
-def reflect_block(block):
+def _reflect_block(block):
     """Blockを左右反転する"""
     return [row[::-1] for row in block]
 
 
-def normalize_block(block):
+def _normalize_block(block):
     """0のみの行と列を削除して正規化する"""
     block = [row for row in block if any(row)]
     block = list(map(list, zip(*[col for col in zip(*block) if any(col)])))
     return block
 
 
-def find_matching_polyominoes(blocks, allow_rotation: bool, allow_reflection: bool):
+def _find_matching_polyominoes(blocks, allow_rotation: bool, allow_reflection: bool):
     normalized_blocks = []
     for block in blocks:
         unique_rotations = set()
         if allow_rotation or allow_reflection:
             for _ in range(4):  # 回転を考慮
-                normalized_block = tuple(map(tuple, normalize_block(block)))
+                normalized_block = tuple(map(tuple, _normalize_block(block)))
                 unique_rotations.add(normalized_block)
-                block = rotate_block(block)
+                block = _rotate_block(block)
 
             if allow_reflection:  # 反転を考慮
-                block = reflect_block(block)
+                block = _reflect_block(block)
                 for _ in range(4):
-                    normalized_block = tuple(map(tuple, normalize_block(block)))
+                    normalized_block = tuple(map(tuple, _normalize_block(block)))
                     unique_rotations.add(normalized_block)
-                    block = rotate_block(block)
+                    block = _rotate_block(block)
         else:
             # 回転や反転を許さない場合は、最初の状態のみを使用
-            normalized_block = tuple(map(tuple, normalize_block(block)))
+            normalized_block = tuple(map(tuple, _normalize_block(block)))
             unique_rotations.add(normalized_block)
 
         normalized_blocks.append(unique_rotations)
@@ -273,9 +283,9 @@ def place_polyomino(solver: Solver, kind: IntArray2D, height: int, width: int, b
                                           [reflection] * len(blocks), check_isomorphism)
 
 
-def place_polyomino_with_rotation(solver: Solver, kind: IntArray2D, height: int, width: int,
-                                  blocks: list[list[list[int]]],
-                                  rotation: list[bool], reflection: list[bool]):
+def place_polyomino_with_each_status(solver: Solver, kind: IntArray2D, height: int, width: int,
+                                     blocks: list[list[list[int]]],
+                                     rotation: list[bool], reflection: list[bool]):
     if len(blocks) != len(rotation) or len(blocks) != len(reflection):
         raise ValueError("ブロック・回転・反転の数が一致しません。")
     for i in range(len(blocks)):
@@ -291,7 +301,7 @@ def _place_polyomino_with_rotation(solver: Solver, kind: IntArray2D, height: int
         check_isomorphism = False
 
     if check_isomorphism:
-        groups = find_matching_polyominoes(blocks, rotation[1], reflection[1])
+        groups = _find_matching_polyominoes(blocks, rotation[1], reflection[1])
         if groups:
             print("同型処理を行います。")
             if rotation[1] & reflection[1]:
@@ -313,13 +323,13 @@ def _place_polyomino_with_rotation(solver: Solver, kind: IntArray2D, height: int
         # 回転と反転を考慮したポリオミノの生成
         rotations = [block]
         if reflection[i]:  # 反転を考慮
-            rotations.append(reflect_block(block))
+            rotations.append(_reflect_block(block))
 
         final_rotations = []
         for rotated_block in rotations:
             if rotation[i]:  # rotationがTrueなら、90度、180度、270度回転した形を追加
                 for _ in range(4):
-                    rotated_block = rotate_block(rotated_block)
+                    rotated_block = _rotate_block(rotated_block)
                     final_rotations.append(rotated_block)
             else:
                 final_rotations.append(rotated_block)
@@ -327,7 +337,7 @@ def _place_polyomino_with_rotation(solver: Solver, kind: IntArray2D, height: int
         unique_blocks = set()  # 重複する回転・反転状態を除外するためのセット
         normalized_rotations = []
         for rotated_block in final_rotations:
-            normalized_block = tuple(map(tuple, normalize_block(rotated_block)))
+            normalized_block = tuple(map(tuple, _normalize_block(rotated_block)))
             if normalized_block not in unique_blocks:
                 unique_blocks.add(normalized_block)
                 normalized_rotations.append(normalized_block)
