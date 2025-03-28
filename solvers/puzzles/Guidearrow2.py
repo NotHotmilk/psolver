@@ -5,6 +5,8 @@ from cspuz.puzzle.util import stringify_grid_frame, stringify_array, encode_arra
 from cspuz.generator import generate_problem, count_non_default_values, ArrayBuilder2D
 import common_rules
 
+
+_ = 0
 U = 1
 R = 2
 D = 3

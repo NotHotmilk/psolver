@@ -316,10 +316,10 @@ def drawGrid():
     # 内部グリッド（破線）
     for j in range(1, gridWidth):
         x = j * cellSize
-        canvas.create_line(x, 0, x, cellSize * gridHeight, dash=(5, 5))
+        canvas.create_line(x, 0, x, cellSize * gridHeight, dash=(2, 2))
     for i in range(1, gridHeight):
         y = i * cellSize
-        canvas.create_line(0, y, cellSize * gridWidth, y, dash=(5, 5))
+        canvas.create_line(0, y, cellSize * gridWidth, y, dash=(2, 2))
     # セル中央のシンボル
     for i in range(gridHeight):
         for j in range(gridWidth):
@@ -689,7 +689,7 @@ solve_frame.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
 out_button = tk.Button(solve_frame, text="Solve", command=outputArrays)
 out_button.pack()
 
-explore_button = tk.Button(solve_frame, text="search", command=exploreZeroCandidates)
+explore_button = tk.Button(solve_frame, text="search", command=exploreZeroCandidates, state=tk.DISABLED)
 explore_button.pack()
 
 # 初回グリッド生成

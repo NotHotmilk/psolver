@@ -29,6 +29,7 @@ for i in range(upper_limit + 1):
     col = ColorHSL(hue, 50, 50)  # 色相(H), 彩度(S), 明度(L)を指定
     NUM_MAP_MANY[i] = f"{Effect.REVERSE}{Effect.BOLD}{col}{i:03d}{ColorHSL.OFF}{Effect.OFF}"  # 色を適用してNUM_MAPに追加
 
+
 class Triomino:
     I = [
         [1, 1, 1]
@@ -73,6 +74,10 @@ class Tetromino:
     ]
     ALL = [I, O, L, S, T, J, Z]
     ALL2 = [L, I, T, S, O]
+
+
+def flip(block) -> list[list[int]]:
+    return [row[::-1] for row in block]
 
 
 class Pentomino:
@@ -129,7 +134,49 @@ class Pentomino:
         [0, 1, 0],
         [0, 1, 1],
     ]
+
+    FLIP_F, FLIP_I, FLIP_L, FLIP_N, FLIP_P, FLIP_T, FLIP_U, FLIP_V, FLIP_W, FLIP_X, FLIP_Y, FLIP_Z = [
+        flip(block) for block in [F, I, L, N, P, T, U, V, W, X, Y, Z]
+    ]
     ALL = [F, I, L, N, P, T, U, V, W, X, Y, Z]
+
+
+_VERTICAL_EDGE = {None: " ", True: f"{Effect.BOLD}{Color.RED}|{Color.OFF}{Effect.OFF}",
+                  False: f"{Color.BLUE}-{Color.OFF}"}
+_HORIZONTAL_EDGE = {None: "   ", True: f"{Effect.BOLD}{Color.RED}---{Color.OFF}{Effect.OFF}",
+                    False: f"{Color.BLUE} : {Color.OFF}"}
+
+
+def stringify_grid_frame_with_array2D(grid_frame, array, symbol_map=None):
+    res = []
+    # 全体の行数は 2 * grid_frame.height + 1,
+    # 全体の列数は 2 * grid_frame.width + 1
+    for y in range(2 * grid_frame.height + 1):
+        for x in range(2 * grid_frame.width + 1):
+            if y % 2 == 0 and x % 2 == 0:
+                # 格子点
+                res.append("+")
+            elif y % 2 == 1 and x % 2 == 0:
+                # 垂直エッジ（grid_frame[y, x].sol をキーにして表示）
+                res.append(_VERTICAL_EDGE[grid_frame[y, x].sol])
+            elif y % 2 == 0 and x % 2 == 1:
+                # 水平エッジ
+                res.append(_HORIZONTAL_EDGE[grid_frame[y, x].sol])
+            else:
+                # セル中央：対応する array の要素を表示
+                cell_val = array[y // 2][x // 2]
+                if symbol_map is not None:
+                    # v.sol があればそれを用いず、単に symbol_map[cell_val] を参照する（または cell_val.sol があれば）
+                    if hasattr(cell_val, "sol"):
+                        s = symbol_map.get(cell_val.sol, str(cell_val))
+                    else:
+                        s = symbol_map.get(cell_val, str(cell_val))
+                else:
+                    s = str(cell_val)
+                # 幅3の中央寄せで表示
+                res.append(s.center(3))
+        res.append("\n")
+    return "".join(res)
 
 
 # 2*2禁
@@ -285,13 +332,29 @@ def place_polyomino(solver: Solver, kind: IntArray2D, height: int, width: int, b
 
 def place_polyomino_with_each_status(solver: Solver, kind: IntArray2D, height: int, width: int,
                                      blocks: list[list[list[int]]],
-                                     rotation: list[bool], reflection: list[bool]):
+                                     rotation: list[bool], reflection: list[bool], try_check_isomorphism: bool = True):
     if len(blocks) != len(rotation) or len(blocks) != len(reflection):
         raise ValueError("ブロック・回転・反転の数が一致しません。")
     for i in range(len(blocks)):
         if reflection[i]:
             rotation[i] = True
-    return _place_polyomino_with_rotation(solver, kind, height, width, blocks, rotation, reflection, False)
+
+    if try_check_isomorphism:
+        # すべてのreflectionがTrueなら、check_isomorphismをTrueにする
+        if all(reflection):
+            check_isomorphism = True
+        # すべてのreflectionがFalseかつすべてのrotationがTrueなら、check_isomorphismをTrueにする
+        elif all(not r for r in reflection) and all(rotation):
+            check_isomorphism = True
+        # すべてのreflectionがFalseかつすべてのrotationがFalseなら、check_isomorphismをTrueにする
+        elif all(not r for r in reflection) and all(not r for r in rotation):
+            check_isomorphism = True
+        else:
+            check_isomorphism = False
+    else:
+        check_isomorphism = False
+
+    return _place_polyomino_with_rotation(solver, kind, height, width, blocks, rotation, reflection, check_isomorphism)
 
 
 def _place_polyomino_with_rotation(solver: Solver, kind: IntArray2D, height: int, width: int,

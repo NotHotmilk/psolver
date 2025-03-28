@@ -1,7 +1,7 @@
 import cspuz
 from cspuz import Solver, graph
 from cspuz.constraints import count_true, fold_and, fold_or, then
-from cspuz.puzzle.util import stringify_grid_frame, stringify_array, stringify_grid_frame_with_array2D
+from cspuz.puzzle.util import stringify_grid_frame, stringify_array
 from cspuz.generator import generate_problem, ArrayBuilder2D
 import common_rules
 
@@ -208,7 +208,7 @@ if __name__ == '__main__':
 
     problem = (center, intersection, vertical_mid, horizontal_mid)
 
-    is_sat, region_id = solve_sentai_show(height, width, problem)
+    is_sat, region_id, division = solve_sentai_show(height, width, problem)
 
     if is_sat:
         print(stringify_array(region_id, common_rules.NUM_MAP_ZERO))
