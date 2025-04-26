@@ -1,6 +1,5 @@
 ﻿from cspuz import Solver, graph
 from cspuz.constraints import fold_or, fold_and, then, count_true
-from cspuz.puzzle.util import stringify_grid_frame, stringify_array
 from cspuz.array import BoolArray2D, IntArray2D
 
 from math import factorial

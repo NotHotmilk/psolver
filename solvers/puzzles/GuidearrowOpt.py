@@ -104,25 +104,26 @@ def deserialize_slitherlink(url):
 
 
 if __name__ == "__main__":
-    import time
-
-    # 溶けるまでの時間を計測
-    start = time.time()
-
-    p = deserialize_slitherlink(
-        "https://puzz.link/p?guidearrow/26/26/zjegbzzndzczhehdzhbzezzrdzczhehdzhbzezzrdzczhehdzhbzezzrdzzztbzzo")
-
-    print (stringify_array(p, common_rules.NUM_MAP))
-
-    ty = 25
-    tx = 23
-
-    is_sat, is_black = solve_guidearrow(ty, tx, p)
+    ty, tx = 6, 6
+    problem = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, U, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, R, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]
+    
+    is_sat, is_black = solve_guidearrow(ty, tx, problem)
 
     if is_sat:
         print(stringify_array(is_black, common_rules.BW_MAP))
     else:
         print('no solution')
-
-    end = time.time()
-    print("time:", end - start)
