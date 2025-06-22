@@ -8,7 +8,7 @@ from colorist import ColorHSL, Effect, Color
 BW_MAP = {True: f"{Effect.BOLD}#{Effect.OFF}", False: f"{Color.WHITE}.{Color.OFF}", 2: f"{Color.RED}o{Color.OFF}",
           None: "?"}
 
-NUM_MAP = {None: "."}
+NUM_MAP = {-1:"_", None: "."}
 upper_limit = 24
 cycle = 35
 NUM_MAP[0] = f"{ColorHSL(0, 0, 40)}.{ColorHSL.OFF}"
